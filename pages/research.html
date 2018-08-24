@@ -117,47 +117,50 @@ engineering, and biological systems.</p>
 <div class="float-left docutils container">
 <img alt="" src="/images/research/learning_lid.gif" style="width: 250px;" />
 </div>
-<p>Many fields, such as the physical sciences, are in the fortunate position of
-having a first-principles models that describes the evolution of certain systems
-with near-perfect accuracy. Notable examples include the Navier-Stokes equations
-in fluid mechanics or Schrödinger's equation in quantum mechanics. Although, in
-principle it is possible to numerically solve these equations through direct
-numerical simulations, this often yields systems of equations with millions or
-billions of degrees of freedom. Even with recent advances in computational power
-and memory capacity, solving these high-fidelity models is still computationally
-intractable for <em>multi-query</em> and <em>time-critical</em> applications such as design
-optimization, uncertainty quantification, and model predictive control.</p>
-<p>Although there exists a wide variety principled strategies for constructing
+<p>Many fields, particularly in the physical sciences, are in the fortunate position of
+having models based on first-principles that describe the evolution of certain
+systems with near-perfect accuracy. Notable examples include the Navier-Stokes
+equations in fluid mechanics or Schrödinger's equation in quantum mechanics.
+Although in principle it is possible to numerically solve these equations
+through direct numerical simulations, this often yields systems of equations
+with millions or billions of degrees of freedom. Even with recent advances in
+computational power and memory capacity solving these high-fidelity models is
+still computationally intractable for <em>multi-query</em> and <em>time-critical</em>
+applications such as design optimization, uncertainty quantification, and model
+predictive control.</p>
+<p>Although there are a wide variety of principled strategies for constructing
 reduced order models from data, most are intrusive as they require access to the
 system operators. Futher, some systems may require special treatment of
 nonlinearities to ensure computational efficiency or additional modeling to
-preserve stability. The recent rise in deep learning and big data have driven a shift in
-in the way complex spatiotemporal systems are modeled. In a recent work titled
+preserve stability. The recent rise in deep learning and big data have driven a
+shift in the way complex spatiotemporal systems are modeled. In a recent work titled
 <a class="reference external" href="https://arxiv.org/abs/1808.01346">Deep convolutional recurrent autoencoders for learning low-dimensional feature dynamics of fluid systems</a>
-we develop a deep learning based, completely data-driven approach to model reduction.
-At the core of this approach is an extension of projection-based model reduction in which
-a low-dimensional representation of the high-dimensional data is <em>learned</em> in the form
-of coordinates of an expressive nonlinear manifold. The dynamics of this representation
-on the underlying manifold are also learned using representative collection of solution snapshots.</p>
+we develop a deep learning based, completely data-driven approach to model
+reduction. At the core of this approach is an extension of projection-based
+model reduction in which a low-dimensional representation of the
+high-dimensional data is <em>learned</em> in the form of coordinates on an expressive
+nonlinear manifold. The dynamics of this representation on the underlying
+manifold are also learned using a representative collection of solution
+snapshots.</p>
 </div>
-<div class="section" id="deep-dilation-models-for-multiscale-dynamics">
-<h3>Deep dilation models for multiscale dynamics</h3>
+<div class="section" id="deep-dilation-models-for-multi-scale-dynamics">
+<h3>Deep dilation models for multi-scale dynamics</h3>
 <div class="float-right docutils container">
-<img alt="" src="/images/research/wavenet.png" style="width: 400px;" />
+<img alt="" src="/images/research/wavenet.png" style="width: 375px;" />
 </div>
 <p>Recurrent neural networks (RNNs) have long been used to model sequential or
 time-dependent data. However, many real-world physical systems, e.g., turbulent
-flow in fluids, exhibit multiscale dynamics. Thus, while RNNs can accurately
+flow in fluids, exhibit multi-scale dynamics. Thus, while RNNs can accurately
 model the dynamics of a system at one time-scale, they fail to capture the
 dynamics occuring over a multitude of scales. This problem is not unique to
-physical systems, RNNs also fail to capture the varying time-scales evident in
+physical systems: RNNs also fail to capture the varying time-scales evident in
 speech data. Recent work involving models with dilated RNNs and convolutional
 networks, e.g., <a class="reference external" href="https://arxiv.org/abs/1711.10433">WaveNet</a> (see figure), have
-shown great performance in modeling multiscale speech data. Currently, I am
+shown great performance in modeling multi-scale speech data. Currently, I am
 developing deep dilation models inspired by WaveNet to help improve deep
-learning based modeling of multiscale physical systems. This work attempts to
-explore the how dilated RNNs help capture dynamics of different scales, and thereby
-significantly increasing the applicability of deep learned based modeling approaches
+learning based modeling of multi-scale physical systems. This work attempts to
+explore the how dilated RNNs help capture dynamics at different scales, and thereby
+significantly increasing the applicability of deep learning based modeling approaches
 to real-world dynamical systems.</p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -171,18 +174,18 @@ to real-world dynamical systems.</p>
 <div class="float-right docutils container">
 <img alt="" src="/images/research/chare_migration.png" style="width: 250px;" />
 </div>
-<p>As we leave the petascale era of high-performance computing and enter the
-exascale era, performance of computational physics codes will increasingly
-depend on its ability to asynchronously adapt to varying computational loads
-induced by multi-scale and multi-physics simulations as well as varying hardware
-performance. During my time at Los Alamos National Laboratory, I contributed to
-the development of <a class="reference external" href="https://quinoacomputing.github.io">Quinoa</a>, an open-source
-computational science code specifically addressing the challenges that will be
-faced with heterogenous exascale machines. Quinoa is built on top of the Charm++
-runtime system which allows for asynchronous parallel execution enablaing the
-overlapping of computation, communication, and IO. In future work, I would like to
-incorporate deep learning based methods into Quinoa for asynchronous parallel
-modeling based purely on multi-scale and multi-physics data.</p>
+<p>As we enter the exascale era of high-performance computing performance of
+computational physics codes will increasingly depend on their ability to
+asynchronously adapt to varying computational loads induced by multi-scale and
+multi-physics simulations as well as varying hardware performance. During my
+time at Los Alamos National Laboratory I contributed to the development of
+<a class="reference external" href="https://quinoacomputing.github.io">Quinoa</a>, an open-source computational
+science code specifically addressing the challenges that will be faced with
+heterogeneous exascale machines. Quinoa is built on top of the Charm++ runtime
+system which allows for asynchronous parallel execution enabling the
+overlapping of computation, communication, and I/O. In future work, I would like
+to incorporate deep learning based methods into Quinoa for asynchronous parallel
+modeling based solely on multi-scale and multi-physics data.</p>
 </div>
 </div>
 </p>
