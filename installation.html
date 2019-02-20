@@ -7,12 +7,24 @@
     <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Tags</title>
+    <title>Installation</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta name="description" content="This site is " />
-        <meta name="author" content="Francisco J. Gonzalez" />
+    <meta name="author" content="Francisco J. Gonzalez" />
+    <meta name="description" content="How to install this theme." />
+    <meta name="keywords" content="">
+<!-- Facebook and Twitter integration -->
+<meta property="og:site_name" content="Francisco J. Gonzalez"/>
+<meta property="og:title" content="Installation"/>
+<meta property="og:description" content="How to install this theme."/>
+<meta property="og:url" content="/installation.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-01-25 08:46:00-06:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/francisco-j-gonzalez.html">
+<meta property="article:section" content="Articles"/>
+    <meta property="og:image" content="/images/avatar.jpg">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
 
@@ -94,11 +106,65 @@
         </aside>
 
         <div id="fh5co-main">
-    <div class="fh5co-narrow-content">
-        <h1 class="fh5co-heading-colored"><i class="icon-tags"></i> Tags</h1>
+
+    <div class="fh5co-narrow-content article-content">
+        <h1 class="fh5co-heading-colored">Installation</h1>
+
+        <div>by
+                <a href="author/francisco-j-gonzalez.html">Francisco J. Gonzalez</a> - Thu, 25 Jan 2018
+        </div>
+
+
         <div class="animate-box" data-animate-effect="fadeInLeft">
+            <p class="animate-box" data-animate-effect="fadeInLeft"><div class="section" id="install-and-use-this-theme">
+<h2>Install and use this theme</h2>
+<div class="section" id="id1">
+<h3>Installation</h3>
+<p>The installation is as easy as a git clone. Give it a try.</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/claudio-walser/pelican-fh5co-marble.git
+</pre></div>
+</div>
+<div class="section" id="usage">
+<h3>Usage</h3>
+<p>I am pretty sure you already know how to use a pelican theme, still, here are the instructions.</p>
+<p>By path in your pelicanconf.py</p>
+<div class="highlight"><pre><span></span><span class="n">THEME</span> <span class="o">=</span> <span class="s1">&#39;/path/to/theme/pelican-fh5co-marble&#39;</span>
+</pre></div>
+</div>
+<div class="section" id="install-it-using-pelican-theme">
+<h3>Install it using pelican-theme</h3>
+<p>Of course you can install it using the pelican-themes cli tool, which is maybe more convinient for you.</p>
+<div class="highlight"><pre><span></span>pelican-themes -i /path/to/theme/pelican-fh5co-marble
+</pre></div>
+<p>Afterwards you can use it by just configuring its name in pelicanconf.py</p>
+<div class="highlight"><pre><span></span><span class="n">THEME</span> <span class="o">=</span> <span class="s1">&#39;pelican-fh5co-marble&#39;</span>
+</pre></div>
+</div>
+</div>
+</p>
         </div>
     </div>
+
+<div class="fh5co-narrow-content">
+<div class="animate-box" data-animate-effect="fadeInLeft">
+    <h2><!-- <i class="icon-speech-bubble"></i>  -->Comments</h2>
+</div>
+<div class="animate-box" data-animate-effect="fadeInLeft">
+    <div id="disqus_thread"></div>
+</div>
+
+<script>
+var disqus_config = function () { 
+  this.language = "en";
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://francisco-j-gonzalez.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript><a href="https://disqus.com/?ref_noscript">Please enable JavaScript to view the comments powered by Disqus.</a></noscript>
 <div class="fh5co-footer">
     <p><small><span>&copy; 2018 Francisco J. Gonzalez</span></small></p>
     <!-- <br /><span>HTML designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a></span>

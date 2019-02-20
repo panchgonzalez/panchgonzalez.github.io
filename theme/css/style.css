@@ -7,7 +7,7 @@
 }
 /* =======================================================
 *
-* 	Template Style 
+* 	Template Style
 *	Edit this section
 *
 * ======================================================= */
@@ -102,8 +102,8 @@ figure figcaption {
   -o-transition: 0.5s;
   transition: 0.5s;
 }
-#fh5co-aside::-webkit-scrollbar { 
-    display: none; 
+#fh5co-aside::-webkit-scrollbar {
+    display: none;
 }
 
 @media screen and (max-width: 1200px) {

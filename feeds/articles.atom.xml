@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Francisco J. Gonzalez - Articles</title><link href="/" rel="alternate"></link><link href="/feeds/articles.atom.xml" rel="self"></link><id>/</id><updated>2018-01-25T08:46:00-06:00</updated><entry><title>Installation</title><link href="/installation.html" rel="alternate"></link><published>2018-01-25T08:46:00-06:00</published><updated>2018-01-25T08:46:00-06:00</updated><author><name>Francisco J. Gonzalez</name></author><id>tag:None,2018-01-25:/installation.html</id><summary type="html">&lt;p class="first last"&gt;How to install this theme.&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="install-and-use-this-theme"&gt;
+&lt;h2&gt;Install and use this theme&lt;/h2&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h3&gt;Installation&lt;/h3&gt;
+&lt;p&gt;The installation is as easy as a git clone. Give it a try.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/claudio-walser/pelican-fh5co-marble.git
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="usage"&gt;
+&lt;h3&gt;Usage&lt;/h3&gt;
+&lt;p&gt;I am pretty sure you already know how to use a pelican theme, still, here are the instructions.&lt;/p&gt;
+&lt;p&gt;By path in your pelicanconf.py&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;THEME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/path/to/theme/pelican-fh5co-marble&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="install-it-using-pelican-theme"&gt;
+&lt;h3&gt;Install it using pelican-theme&lt;/h3&gt;
+&lt;p&gt;Of course you can install it using the pelican-themes cli tool, which is maybe more convinient for you.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pelican-themes -i /path/to/theme/pelican-fh5co-marble
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Afterwards you can use it by just configuring its name in pelicanconf.py&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;THEME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;pelican-fh5co-marble&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</content></entry></feed>
