@@ -1,16 +1,26 @@
 # careers section data
 # if you don't have language feature(language.yml is empty), ignore "i18n" items
-- name: Google
-  link: http://www.google.com/
-  date: July 2017 - <i class="fa fa-clock-o" aria-hidden="true" title="Until Now"></i>
-  job: Programming Internship
+- name: Strong Analytics
+  link: https://www.strong.io
+  date: Aug 2019 - Present
+  job: Data Scientist
 
-- name: Facebook
-  link: http://www.facebook.com/
-  date: May 2014 - July 2017
-  job: Web Assistant
+- name: CCC
+  link: https://www.cccis.com/
+  date: Nov 2018 - Aug 2019
+  job: Data Scientist
 
-- name: SAP
-  link: https://www.sap.com/
-  date: 2010 - 2014
-  job: Software Developer
+- name: Mitsubishi Electric Research Lab
+  link: https://www.merl.com/
+  date: Summer 2018
+  job: Research Intern
+
+- name: UIUC
+  link: https://ae.illinois.edu/
+  date: Aug 2016 - Nov 2018
+  job: Graduate Research Assistant
+
+- name: Los Alamos National Lab
+  link: https://www.lanl.gov/
+  date: Summer 2016
+  job: Graduate Research Fellow
