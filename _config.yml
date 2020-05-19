@@ -16,6 +16,7 @@ keywords: ["blog", "jekyll"]
 #
 timezone:          America/Chicago
 markdown:          kramdown
+mathjax:           true
 highlighter:       rouge
 excerpt_separator: <!--more-->
 permalink:         /articles/:year-:month/:title
