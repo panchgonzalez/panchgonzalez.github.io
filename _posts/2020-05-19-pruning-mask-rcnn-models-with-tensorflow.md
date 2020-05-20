@@ -7,18 +7,25 @@ comments: true
 tag:
 ---
 
-TL;DR: This is too much work! Use `tf.keras` and `tensorflow_model_optimization` instead. Here's the [Github repo](https://github.com/panchgonzalez/tf_object_detection_pruning).
+TL;DR: This is too much work! Use `tf.keras` and `tensorflow_model_optimization` instead.
+
+Here's the [Github repo](https://github.com/panchgonzalez/tf_object_detection_pruning).
 
 #### Magnitude-based weight pruning
 
 Pruning deep learning models has, for a few years now, been an effective way of inducing
-sparsity in the model's various connection matrices. This sparsification of weight matrices
-has only a marginal impact on overall accuracy while substantially reducing the model size.
-Properly pruned *large-sparse* models have been shown to outperform *small-dense* models [1].
+sparsity in the model's various connection matrices. This sparsification of weight
+matrices has only a marginal impact on overall accuracy while substantially reducing the
+model size. Properly pruned *large-sparse* models have been shown to outperform
+*small-dense* models [1].
 
-Magnitude-based weight pruning gradually zeros out model weights during training, achieving
-a target level of model sparsity in the process. These sparse models are easier to compress,
-and with additional work can be leveraged to drive down latency.
+<p align="center">
+<img width="65%" src="{{ site.url }}/img/2020-05-19-pruning/pruning_decay.png" />
+</p>
+
+Magnitude-based weight pruning gradually zeros out model weights during training,
+achieving a target level of model sparsity in the process. These sparse models are
+easier to compress, and with additional work can be leveraged to drive down latency.
 
 In this post I'll go over the process of modifying TensorFlow's Object Detection API to
 sparsify models during training using the `tf.contrib.model_pruning` API. This
@@ -29,7 +36,6 @@ pruning steps, starting a training step $$ t_0 $$ with a pruning frequency $$ \D
 $$
 s_t = s_f+(s_i-s_f)\Big(1-\frac{t-t_0}{n\Delta t}\Big)^3\quad\text{for}\quad t\in\left\{t_0,t_0+\Delta t,...,t_0+n\Delta t\right \}
 $$
-
 
 #### Why TensorFlow 1.x?
 
@@ -46,9 +52,10 @@ imagine a lot of legacy object detection systems are still using TF 1.x.
 
 **A warning to "modern" TensorFlow users**
 
-Before I dive into the world of deprecation land, I should mention that if you're using `tf.keras`
-based models then model pruning is made 100% easier with the new [TensorFlow Model Optimization
-API](https://www.tensorflow.org/model_optimization). It is as simple as:
+Before I dive into the world of deprecation land, I should mention that if you're using
+`tf.keras` based models then model pruning is made 100% easier with the new [TensorFlow
+Model Optimization API](https://www.tensorflow.org/model_optimization). It is as simple
+as
 
 ```python
 import tensorflow as tf
@@ -66,14 +73,14 @@ model_for_pruning = tfmot.sparsity.keras.prune_low_magnitude(
 
 model_for_pruning.fit(...)
 ```
-That's it. However, if you're still using `tf.slim` based models (like all of TensorFlow's
+That's it! However, if you're still using `tf.slim` based models (like all of TensorFlow's
 legacy Object Detection API) then you'll have to keep going.
 
 **Deprecation land: `tf.contrib.model_pruning`**
 
 Hidden away in the legacy TF 1.15 `tf.contrib` library is a [model pruning API](https://github.com/tensorflow/tensorflow/tree/r1.15/tensorflow/contrib/model_pruning) which was written
 in conjunction (I think) with [1]. This API helps inject the necessary TensorFlow ops into
-the training graph so the model can be pruned as its being trained.
+the training graph so the model can be pruned during training.
 
 The first step is to add mask and threshold variables to the layers that you want to undergo
 pruning. This can be done by wrapping the weight tensor with the `apply_mask` function
@@ -85,20 +92,20 @@ conv = tf.nn.conv2d(images, pruning.apply_mask(weights), stride, padding)
 This creates a convolutional layer with additional variables mask and threshold as shown below.
 
 <p align="center">
-<img width="65%" src="{{ site.url }}/img/masked_conv.png" />
+<img width="65%" src="{{ site.url }}/img/2020-05-19-pruning/masked_conv.png" />
 </p>
 
 Alternatively, you can use one of the provided TensorFlow layer variants with the
-auxiliary variables built in:
+auxiliary variables built-in:
 
 - `layers.masked_conv2d`
 - `layers.masked_fully_connected`
 - `rnn_cells.MaskedLSTMCell`
 
 The second step is to add ops to the training graph that monitor the distribution of
-layer's weight magnitudes and determine the layer threshold, such that masking all the
-weights below this threshold achieves the sparsity level desired for the current
-training step. This can be achieved as follows
+layer's weight magnitudes and determine the layer threshold. This masks all the
+weights below determined threshold achieving the target sparsity for a particular train
+step. This can be achieved as follows
 
 ```python
 tf.app.flags.DEFINE_string(
@@ -194,10 +201,11 @@ def masked_inception_arg_scope(weight_decay=0.00004,
       return sc
 
 ```
-For an InceptionV2 model endowed with model pruning create a new `masked_inception_v2.py`
-model backbone using the model pruning's `layers.masked_conv2d` layer. The simplest way
-to do this is make a copy of `models/research/slim/nets/inception_v2.py` and replace all
-instances of `slim.conv2d` with `model_pruning.masked_conv2d`
+For an InceptionV2 model endowed with model pruning create a new
+`masked_inception_v2.py` model backbone using the model pruning's
+`model_pruning.masked_conv2d` layer. The simplest way to do this is make a copy of
+`models/research/slim/nets/inception_v2.py` and replace all instances of `slim.conv2d`
+with `model_pruning.masked_conv2d`
 
 ```python
 """Contains the definition for inception v2 with masked layers."""
@@ -347,9 +355,10 @@ class FasterRCNNMaskedInceptionV2FeatureExtractor(
 
 **Model Pruning Hook**
 
-Since the Object Detection API models are trained using the `tf.Estimator` framework, the
-best way to monitor and prune the models during training is to write a custom `ModelPruningHook`
-that wraps the `model_pruning.Pruning` object and calls the`Pruning.conditional_mask_update_op`.
+Since the Object Detection API models are trained using the `tf.Estimator` framework,
+the best way to monitor and prune the models during training is to write a custom
+`ModelPruningHook` that wraps the `model_pruning.Pruning` object and calls the
+`Pruning.conditional_mask_update_op`.
 
 After a deep dive through the often scant TensorFlow API documentation and even deeper
 dive through the TensorFlow source code, here's the hook that seems to get the job done
@@ -524,7 +533,20 @@ python ${OBJECT_DETECTION_PATH}/object_detection/model_main.py \
     --pruning_end_step=200000
 ```
 
+#### Notes
+
+There are a ton of details that I glossed over, but the main idea is all there. A fully
+working example can be found in the following
+[repo](https://github.com/panchgonzalez/tf_object_detection_pruning). To prune a
+different architecture, say MobileNetV1-based SSD model, just rerun through steps 1-2:
+
+1. Create a masked version of the MobileNetV1 backbone `slim/nets/masked_mobilenet_v1.py`
+2. Create a masked version of the MobileNetV1 feature extractor `SSDMaskedMobileNetV1FeatureExtractor`
+
+Or save yourself the trouble and start from a `tf.keras` model and use
+`tensorflow_model_optimization` instead.
+
 #### References
 
-1. Michael Zhu and Suyog Gupta, “To prune, or not to prune: exploring the efficacy of pruning for model compression”, *2017 NIPS Workshop on Machine Learning of Phones and other Consumer Devices* (https://arxiv.org/pdf/1710.01878.pdf)
-2. TensorFlow Model Pruning API: https://github.com/tensorflow/tensorflow/tree/r1.15/tensorflow/contrib/model_pruning
+1. Michael Zhu and Suyog Gupta, “To prune, or not to prune: exploring the efficacy of pruning for model compression”, *2017 NIPS Workshop on Machine Learning of Phones and other Consumer Devices* ([https://arxiv.org/pdf/1710.01878.pdf](https://arxiv.org/pdf/1710.01878.pdf))
+2. [TensorFlow Model Pruning API](https://github.com/tensorflow/tensorflow/tree/r1.15/tensorflow/contrib/model_pruning)
