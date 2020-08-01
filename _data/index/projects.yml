@@ -1,4 +1,24 @@
+- name: Cerbero
+  descr: "Cerbero is an open-source multi-task learning library, built on PyTorch. It's
+  based on <a class='reference external' href='https://github.com/snorkel-team/snorkel'>Snorkel</a>'s
+  multi-task classification modeling framework, but since they dropped support recently
+  we at <a class='reference external' href='https://www.strong.io/'>Strong</a> have
+  decided to develop our own version since we found it useful.
+
+  Ultimately, the goal is for Cerbero to make building and training complex multi-task
+  models easy and intuitive. Feedback and contributions are welcome!"
+  github: https://github.com/strongio/cerbero
+
 - name: <i>neural</i> Model Order Reduction
-  descr: "Many fields, particularly in the physical sciences, are in the fortunate position of having models based on first-principles that describe the evolution of certain systems with near-perfect accuracy. Notable examples include the Navier-Stokes equations in fluid mechanics or Schrödinger's equation in quantum mechanics. Although in principle it is possible to numerically solve these equations through direct numerical simulations, this often yields systems of equations with millions or billions of degrees of freedom. Even with recent advances in computational power and memory capacity solving these high-fidelity models is still computationally intractable for <em>multi-query</em> and <em>time-critical</em> applications such as design optimization, uncertainty quantification, and model predictive control.</p> <p>Although there are a wide variety of principled strategies for constructing reduced order models from data, most are intrusive as they require access to the system operators. Further, some systems may require special treatment of nonlinearities to ensure computational efficiency or additional modeling to preserve stability. The recent rise in deep learning and big data have driven a shift in the way complex spatiotemporal systems are modeled. In a recent work titled <a class='reference external' href='https://arxiv.org/abs/1808.01346'>Deep convolutional recurrent autoencoders for learning low-dimensional feature dynamics of fluid systems</a> we develop a deep learning based, completely data-driven approach to model reduction. At the core of this approach is an extension of projection-based model reduction in which a low-dimensional representation of the high-dimensional data is <em>learned</em> in the form of coordinates on an expressive nonlinear manifold. The dynamics of this representation on the underlying manifold are also learned using a representative collection of solution snapshots."
+  descr: "nMOR is an open-source deep learning framework for model reduction of general
+  dynamical systems, built on TensorFlow. By now it definitely has the aura of a
+  neglected <i>research-y</i> codebase and is definitely in need of a refresh. Some
+  ideas for future work here include:
+  <ul>
+    <li>Refactor and update to TensorFlow 2.x (or PyTorch?)</li>
+    <li>Add a couple of example applications</li>
+    <li>Add more documentation</li>
+  </ul>
+  "
   image: learning_lid.gif
   github: https://github.com/panchgonzalez/nmor
