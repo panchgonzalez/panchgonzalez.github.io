@@ -60,15 +60,17 @@
     "start-server-and-test": "^1.11.6"
   },
   "keywords": [
-    "gatsby",
-    "starter",
-    "mdx",
-    "PWA",
-    "netlify",
+    "data-science",
+    "computer-vision",
+    "deep-learning",
+    "machine-learning",
+    "high-performance-computing",
+    "tensorflow",
+    "pytorch",
+    "onnx",
+    "cortex",
+    "docker",
     "portfolio",
-    "minimal",
-    "animations",
-    "dark-mode"
   ],
   "license": "MIT",
   "scripts": {
