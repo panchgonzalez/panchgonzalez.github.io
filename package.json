@@ -60,11 +60,13 @@
     "start-server-and-test": "^1.11.6"
   },
   "keywords": [
+    "chicago",
     "data-science",
     "computer-vision",
     "deep-learning",
     "machine-learning",
     "high-performance-computing",
+    "artificial-intelligence",
     "tensorflow",
     "pytorch",
     "onnx",
