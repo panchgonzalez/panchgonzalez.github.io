@@ -62,7 +62,7 @@ module.exports = {
     },
     {
       name: "LinkedIn",
-      url: "https://www.linkedin.com/in/francisco-gonzalez-62a75b9b",
+      url: "https://www.linkedin.com/in/panchgonzalez",
     },
     {
       name: "Medium",
