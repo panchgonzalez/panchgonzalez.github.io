@@ -66,7 +66,7 @@ module.exports = {
     },
     {
       name: "Medium",
-      url: "https://medium.com/@panchgonzalez",
+      url: "https://blog.panch.io",
     }
   ],
 
