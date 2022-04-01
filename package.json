@@ -1,6 +1,6 @@
 {
   "name": "panch-io",
-  "description": "Data Science Portfolio",
+  "description": "Portfolio",
   "version": "1.0.0",
   "author": "Francisco Gonzalez <fg@panch.io>",
   "dependencies": {
@@ -61,6 +61,7 @@
   },
   "keywords": [
     "chicago",
+    "seattle",
     "engineer",
     "data-science",
     "computer-vision",
@@ -68,11 +69,13 @@
     "machine-learning",
     "high-performance-computing",
     "artificial-intelligence",
-    "tensorflow",
+    "ai",
     "pytorch",
     "onnx",
     "cortex",
+    "nvidia",
     "docker",
+    "tensorflow",
     "portfolio"
   ],
   "license": "MIT",
