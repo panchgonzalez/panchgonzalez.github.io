@@ -4,7 +4,7 @@ module.exports = {
   siteTitle: "Francisco Gonzalez",
   siteShortTitle: "fg.", // Used as logo text in header, footer, and splash screen
   siteDescription:
-    "Data Science Portfolio.",
+    "ML/CV Portfolio.",
   siteUrl: "https://panch.io",
   siteLanguage: "en_US",
   siteIcon: "content/favicon.png", // Relative to gatsby-config file
@@ -47,7 +47,7 @@ module.exports = {
   mediumRssFeed:
     // "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40konstantinmuenster",
     "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40panchgonzalez",
-    // rssFeed: "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.theguardian.com%2Finternational%2Frss",
+  // rssFeed: "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.theguardian.com%2Finternational%2Frss",
 
   shownArticles: 3,
 
@@ -74,10 +74,6 @@ module.exports = {
   navLinks: {
     menu: [
       {
-        name: "Articles",
-        url: "/#articles",
-      },
-      {
         name: "About Me",
         url: "/#about",
       },
@@ -85,6 +81,10 @@ module.exports = {
         name: "Projects",
         url: "/#projects",
       },
+      {
+        name: "Articles",
+        url: "/#articles",
+      }
     ],
     button: {
       name: "Contact",

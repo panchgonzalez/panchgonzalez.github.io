@@ -1,6 +1,6 @@
 {
   "name": "panch-io",
-  "description": "Portfolio",
+  "description": "ML/CV Portfolio",
   "version": "1.0.0",
   "author": "Francisco Gonzalez <fg@panch.io>",
   "dependencies": {

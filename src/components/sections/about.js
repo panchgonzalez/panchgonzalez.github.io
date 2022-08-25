@@ -98,7 +98,7 @@ const About = ({ content }) => {
             <MDXRenderer>{body}</MDXRenderer>
           </div>
         </motion.div>
-        <motion.div
+        {/* <motion.div
           className="image-content"
           ref={iRef}
           initial={{ opacity: 0, x: 20 }}
@@ -108,7 +108,7 @@ const About = ({ content }) => {
             className="about-author"
             fluid={frontmatter.image.childImageSharp.fluid}
           />
-        </motion.div>
+        </motion.div> */}
       </StyledContentWrapper>
     </StyledSection>
   )
