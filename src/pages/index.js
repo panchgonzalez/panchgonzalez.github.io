@@ -37,11 +37,11 @@ const IndexPage = ({ data }) => {
         />
         <Hero content={data.hero.edges} />
         {/* Articles is populated via Medium RSS Feed fetch */}
-        <About content={data.about.edges} />
-        <Interests content={data.interests.edges} />
-        <Projects content={data.projects.edges} />
-        <Articles />
-        <Contact content={data.contact.edges} />
+        {/* <About content={data.about.edges} /> */}
+        {/* <Interests content={data.interests.edges} /> */}
+        {/* <Projects content={data.projects.edges} /> */}
+        {/* <Articles /> */}
+        {/* <Contact content={data.contact.edges} /> */}
       </Layout>
     </GlobalStateProvider>
   )

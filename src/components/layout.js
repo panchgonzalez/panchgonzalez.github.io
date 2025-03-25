@@ -33,9 +33,9 @@ const Layout = ({ children }) => {
     <StyledLayoutWrapper>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Header />
+        {/* <Header /> */}
         <main id="main-content">{children}</main>
-        <Footer />
+        {/* <Footer /> */}
       </ThemeProvider>
     </StyledLayoutWrapper>
   )

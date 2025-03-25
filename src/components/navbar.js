@@ -8,21 +8,26 @@ const StyledNav = styled.nav`
   display: none;
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 31.25rem;
     background: ${({ theme }) => theme.colors.background};
-    a {
-      color: ${({ theme }) => theme.colors.primary};
-    }
   }
+
+  .nav-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.25rem;
+    margin-left: auto;
+  }
+
   .nav-link {
     font-size: 1rem;
     font-weight: 700;
     text-align: center;
     position: relative;
-    margin: 0 0 0 1.25rem;
     padding: 0;
+    color: ${({ theme }) => theme.colors.primary};
+
     &::before {
       transition: 200ms ease-out;
       height: 0.1563rem;
@@ -36,6 +41,7 @@ const StyledNav = styled.nav`
       width: 100%;
     }
   }
+
   .cta-btn {
     width: auto;
     height: auto;
@@ -43,10 +49,11 @@ const StyledNav = styled.nav`
     border-radius: ${({ theme }) => theme.borderRadius};
     border: 0.125rem solid ${({ theme }) => theme.colors.primary};
     background: ${({ theme }) => theme.colors.background};
-    transition: 20ms ease-out;
+    transition: 200ms ease-out;
     font-size: 1rem;
     padding: 0.5rem 1.5rem;
-    margin: 0;
+    margin-left: 1.5rem; /* Ensures spacing between menu and button */
+
     &:hover {
       background: ${({ theme }) => theme.colors.primary};
       color: ${({ theme }) => theme.colors.background};
@@ -58,16 +65,16 @@ const Navbar = () => {
   const { menu, button } = navLinks
   return (
     <StyledNav>
-      {menu.map(({ name, url }, key) => {
-        return (
+      <div className="nav-links">
+        {menu.map(({ name, url }, key) => (
           <Link className="nav-link" key={key} to={url}>
             {name}
           </Link>
-        )
-      })}
-      <Link className="cta-btn" to={button.url}>
+        ))}
+      </div>
+      {/* <Link className="cta-btn" to={button.url}>
         {button.name}
-      </Link>
+      </Link> */}
     </StyledNav>
   )
 }
