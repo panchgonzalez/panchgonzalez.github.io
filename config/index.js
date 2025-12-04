@@ -64,10 +64,10 @@ module.exports = {
       name: "LinkedIn",
       url: "https://www.linkedin.com/in/panchgonzalez",
     },
-    // {
-    //   name: "Medium",
-    //   url: "https://blog.panch.io",
-    // }
+    {
+      name: "Guess The City",
+      url: "https://cities.panch.io",
+    }
   ],
 
   //-- NAVIGATION SETTINGS -----
