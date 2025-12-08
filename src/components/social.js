@@ -9,22 +9,30 @@ import { socialMedia } from "../../config"
 
 const StyledSocialWrapper = styled.div`
   display: grid;
-  /* Calculate columns, depending on how many profiles there are */
-  grid-template-columns: repeat(${({ itemCount }) => itemCount + 1}, auto);
+  /* Default to single column (stacked) for mobile */
+  grid-template-columns: 1fr;
   justify-content: start;
   justify-items: start;
+  overflow: visible;
 
-  margin-left: -2.5rem;
-  margin-right: -2.5rem;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  /* Horizontal layout for larger screens */
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    /* Calculate columns, depending on how many profiles there are */
+    grid-template-columns: repeat(${({ itemCount }) => itemCount + 1}, auto);
 
-  overflow-x: scroll;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  &::-webkit-scrollbar {
-    display: none;
+    margin-left: -2.5rem;
+    margin-right: -2.5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
+
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     overflow: visible;
   }
