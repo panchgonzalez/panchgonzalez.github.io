@@ -2,6 +2,10 @@
   publish = "dist"
   command = "pnpm run build"
 
+[build.environment]
+  NODE_VERSION = "20"
+  PNPM_VERSION = "10.13.1"
+
 # Redirects for Astro static assets
 [[redirects]]
   from = "/_astro/*"
