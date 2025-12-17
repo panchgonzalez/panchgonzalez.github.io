@@ -1,0 +1,212 @@
+@import './fonts.css';
+@import './post.css';
+
+:root {
+  /* Min Content Width */
+  --content-width: 25rem;
+
+  /* Typography */
+  --sans:
+    Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --serif: Besley, Baskerville, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  --font-size-s: 0.8125rem;
+  --font-size-m: 0.9375rem;
+  --font-size-l: 1.0625rem;
+
+  --font-weight-light: 350;
+  --font-weight-regular: 400;
+  --font-weight-bold: 500;
+
+  --spacing-s: -0.08em;
+  --spacing-m: -0.02em;
+
+  /* Light Mode Colors (Default) */
+  --bg: #ffffff;
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-secondary: rgba(0, 0, 0, 0.4);
+  --text-tertiary: rgba(0, 0, 0, 0.24);
+  --border: rgba(0, 0, 0, 0.1);
+  --selection: rgba(0, 0, 0, 0.08);
+  --code-bg: rgba(0, 0, 0, 0.04);
+  --mark: #f3ffc4;
+
+  /* Syntax Theme (GitHub Light) */
+  --astro-code-foreground: #24292e;
+  --astro-code-background: #ffffff;
+  --astro-code-token-constant: #005cc5;
+  --astro-code-token-string: #032f62;
+  --astro-code-token-comment: #6a737d;
+  --astro-code-token-keyword: #d73a49;
+  --astro-code-token-parameter: #24292e;
+  --astro-code-token-function: #6f42c1;
+  --astro-code-token-string-expression: #22863a;
+  --astro-code-token-punctuation: #24292e;
+  --astro-code-token-link: #005cc5;
+}
+
+/* Light Mode (Explicit) */
+html.light {
+  --bg: #ffffff;
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-secondary: rgba(0, 0, 0, 0.4);
+  --text-tertiary: rgba(0, 0, 0, 0.24);
+  --border: rgba(0, 0, 0, 0.1);
+  --selection: rgba(0, 0, 0, 0.08);
+  --code-bg: rgba(0, 0, 0, 0.04);
+  --mark: #f3ffc4;
+
+  /* Syntax Theme (GitHub Light - Redundant but Explicit) */
+  --astro-code-foreground: #24292e;
+  --astro-code-background: #ffffff;
+  --astro-code-token-constant: #005cc5;
+  --astro-code-token-string: #032f62;
+  --astro-code-token-comment: #6a737d;
+  --astro-code-token-keyword: #d73a49;
+  --astro-code-token-parameter: #24292e;
+  --astro-code-token-function: #6f42c1;
+  --astro-code-token-string-expression: #22863a;
+  --astro-code-token-punctuation: #24292e;
+  --astro-code-token-link: #005cc5;
+}
+
+/* Dark Mode (Explicit) */
+html.dark {
+  --bg: #1c1c1c;
+  --text-primary: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.4);
+  --text-tertiary: rgba(255, 255, 255, 0.24);
+  --border: rgba(255, 255, 255, 0.1);
+  --selection: rgba(255, 255, 255, 0.08);
+  --code-bg: rgba(255, 255, 255, 0.04);
+  --mark: #545b37;
+
+  /* Syntax Theme (GitHub Dark) */
+  --astro-code-foreground: #c9d1d9;
+  --astro-code-background: #0d1117;
+  --astro-code-token-constant: #79c0ff;
+  --astro-code-token-string: #a5d6ff;
+  --astro-code-token-comment: #8b949e;
+  --astro-code-token-keyword: #ff7b72;
+  --astro-code-token-parameter: #c9d1d9;
+  --astro-code-token-function: #d2a8ff;
+  --astro-code-token-string-expression: #7ee787;
+  --astro-code-token-punctuation: #c9d1d9;
+  --astro-code-token-link: #58a6ff;
+}
+
+html {
+  background-color: var(--bg);
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  font-family: var(--sans);
+  font-feature-settings: 'ss03' 1;
+  font-size: var(--font-size-m);
+  text-autospace: normal;
+  text-rendering: optimizeLegibility;
+  line-height: 1.75;
+  color: var(--text-primary);
+  font-display: swap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  letter-spacing: var(--spacing-m);
+  padding: 6rem 1.5rem 1.5rem 1.5rem;
+  overscroll-behavior-y: contain;
+  transition: background-color 0.2s ease-out;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 4rem 1.35rem 1.35rem 1.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background-color: var(--selection);
+}
+
+:focus {
+  outline: 2px solid var(--text-tertiary);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--text-tertiary);
+  outline-offset: 2px;
+}
+
+body[data-width] {
+  max-width: var(--content-width);
+}
+
+body[data-centered='true'] {
+  margin: 0 auto;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.date {
+  margin: 0;
+  font-weight: var(--font-weight-light);
+  color: var(--text-secondary);
+  opacity: 0.75;
+  flex-shrink: 0;
+  letter-spacing: var(--spacing-s);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings:
+    'tnum' 1,
+    'zero' 0,
+    'cv01' 1,
+    'cv02' 1,
+    'calt' 1,
+    'ss03' 1,
+    'ordn' 1;
+}
+
+.date .month {
+  letter-spacing: var(--spacing-m);
+}
+
+.sr-only {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

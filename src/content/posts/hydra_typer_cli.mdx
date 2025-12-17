@@ -1,0 +1,155 @@
+---
+title: 'Building Robust CLIs with Typer and Hydra'
+pubDate: '2023-04-27'
+---
+
+Command Line Interfaces (CLIs) are a powerful way to interact with software systems. They allow users to perform complex operations with just a few keystrokes, and they can automate repetative tasks. However, building a robust CLI that can handle complex configurations can be challenging. This is where Typer and Hydra come in. In this article, we will explore how to integrate Typer and Hydra to build robust CLIs.
+
+Full code on [Github](https://github.com/panchgonzalez/typer-hydra-cli)
+
+## What is Typer?
+
+[Typer](https://typer.tiangolo.com/typer-cli/) is a Python library that makes it *extremely* easy to build CLI applications. It is built on top of the Click library and provides a simplified interface for creating CLI commands, options, and arguments. Typer is designed to be easy to use, easy to learn, and easy to integrate with other Python libraries. If you’re a fan of FastAPI, then you’ll love Typer — they’re both created by 
+[Sebastián Ramírez](https://medium.com/u/963974981597)
+!
+
+Let’s jump in to a simple example:
+
+Assume we have a function which submits a large job. In practice a function like this can probably take dozens or even hundreds of parameters (more on this later). For illustration let’s just simplify this to `submit_job(job_name: str, job_id: str)`.
+
+With Typer all you have to do is wrap the original function, add the `@cli.command` decorator, and you have a fully working CLI application without having to mess with argparse!
+
+```python
+import client
+import typer
+
+cli = typer.Typer()
+
+@cli.command()
+def submit_job(job_name: str, job_id: str):
+  client.submit_job(job_name, job_id)
+
+if __name__ == "__main__":
+  cli()
+```
+We can then run on the command line with
+
+```bash
+python main.py "my_job_name" "my_job_id"
+
+# Submitting job my_job_name with id my_job_id 
+```
+The real magic with Typer comes in when building a CLI application with multiple commands. If you’ve ever tried this with `argparse`, I feel your pain.
+
+```python
+import client
+import typer
+
+cli = typer.Typer()
+
+@cli.command()
+def submit_job(job_name: str, job_id: str):
+  client.submit_job(job_name, job_id)
+
+@cli.command()
+def job_status(job_id: str):
+  client.get_job_summary(job_id)
+
+if __name__ == "__main__":
+  cli()
+```
+```bash
+python main.py job-status "my_job_id"
+
+# Job status for job my_job_id
+```
+Go read the [Typer docs](https://typer.tiangolo.com/) for more detailed info — they’re excellent!
+
+## What is Hydra?
+
+Coming back to that thing about `submit_job()` potentially having hundreds of input parameters… maybe a single function won’t have hundreds of inputs, but it’s not uncommon to have systems that require an enormous amount of configuration. Just imagine all the hyperparameters needed to train GPT-4! This is where Hydra comes in.
+
+[Hydra](https://github.com/facebookresearch/hydra) is a Python library that provides a framework for *elegantly* configuring complex systems. The main feature is the capacity to generate a hierarchical configuration in a flexible way by combining and modifying it through configuration files and command-line inputs.
+
+Revisiting that simple example:
+
+First off, you’ll notice there’s a ton of similarity between Typer and Hydra. Mainly we want to wrap the main functionality and add a decorator — in this case `@hydra.main()`.
+
+```python
+import client
+
+import hydra
+from omegaconf import DictConfig
+
+
+@hydra.main(config_path="conf", config_name="config")
+def submit_job(cfg: DictConfig):
+  client.submit_job(cfg.job_name, cfg.job_id)
+
+
+if __name__ == "__main__":
+  submit_job()
+```
+The main difference now is that Hydra expects a configuration file somewhere in your directory, in this case under `conf/config.yaml`.
+
+```yaml
+job_name: my_job_name
+job_id: my_job_id
+```
+Similar to Typer you can change the inputs through the CLI, assuming thatsubmit_job is already set up as a CLI command (e.g., using a entry points).
+
+```bash
+submit_job job_name=my_job_name" job_id=my_job_id
+```
+Again, please read the [Hydra docs](https://hydra.cc/docs/intro/) — I’m glossing over a ton of details.
+
+## Why use Typer and Hydra together?
+
+Hopefully at this point you’re starting to see how these two packages can be mutually beneficial. When building a CLI, it’s important to consider how it will handle complex configurations. With Typer, you can easily define CLI commands, options, and arguments, but things can quickly get out of control when your command can take dozens of parameters. With Hydra, you can define a hierarchical configuration system that allows you to specify the parameters that control how your CLI operates. By combining Typer and Hydra, you can build a robust CLI that is easy to use and easy to configure.
+
+## Building a robust CLI with Typer and Hydra
+
+The main trick in combining these two is to use Hydra’s [Compose API](https://hydra.cc/docs/advanced/compose_api/) which helps compose a configuration similar to `@hydra.main()` anywhere in the code.
+
+According to the Hydra docs, the Compose API should be used in cases where `@hydra.main()` isn’t applicable:
+
+Inside a Jupyter notebook ([Example](https://hydra.cc/docs/advanced/jupyter_notebooks/))
+Inside a unit test ([Example](https://hydra.cc/docs/advanced/unit_testing/))
+In parts of your application that don’t have access to the command line ([Example](https://github.com/facebookresearch/hydra/blob/main/examples/advanced/ad_hoc_composition))
+To compose multiple configuration objects ([Example with Ray](https://github.com/facebookresearch/hydra/blob/main/examples/advanced/ray_example/ray_compose_example.py))
+Not included in this list is our case here where we just want to replace Hydra’s CLI functionality with Typer’s (arguably) nicer solution.
+
+In general the changes are small, but the impact is huge.
+
+First, we write a compose wrapper which initializes the Hydra configs.
+
+```python
+def _compose(config_name: str, overrides: Optional[List[str]]) -> DictConfig:
+    with initialize(config_path="conf"):
+        cfg = compose(
+            config_name=config_name,
+            overrides=overrides,
+            return_hydra_config=True
+        )
+        return cfg
+```
+Then for each command we use Typer’s `@cli.command()` decorator, and compose the configs within the function.
+
+```python
+@cli.command()
+def submit_job(overrides: Optional[List[str]] = typer.Argument(None)):
+    cfg = _compose(config_name="config", overrides=overrides)
+    client.submit_job(cfg.job_name, cfg.job_id)
+```
+Finally, we just need to expose the `cli()` object as an entrypoint and you’re set! The new CLI app has the usage `my_app [OPTIONS] command [ARGS]`, but instead of Typer arguments we’re using Hydra-style arguments.
+
+```bash
+my_app submit-job job_name=my_job_name job_id=my_job_id
+```
+In general, the bulk of the configurations live in the YAML configuration files, and they don’t change much. This is useful when running the same command many times but with slightly different inputs. With this setup I can also add a new command quickly.
+
+## Why this matters?
+
+It doesn’t, probably. But I found it very useful in my work in both ML training workflows as well as configuring production computer vision systems which may have multiple models and dozens of moving parts.
+
+Let me know if this was helpful for you!

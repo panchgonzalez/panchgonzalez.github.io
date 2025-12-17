@@ -1,0 +1,69 @@
+---
+import { themeConfig } from '@/config'
+import SocialIcon from '@/components/ui/SocialIcon.astro'
+const today = new Date()
+---
+
+<footer>
+  <div class="footer-content">
+    <div class="copyright">
+      <span class="date">
+        Built in
+        {today.getFullYear()}
+      </span>
+      <!-- {themeConfig.site.author} -->
+    </div>
+    
+    <div class="social-links">
+      {themeConfig.social && themeConfig.social.map((social) => (
+        <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
+          <SocialIcon icon={social.icon} />
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>
+<style>
+  footer {
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-light);
+    line-height: 1.75;
+    color: var(--text-secondary);
+    opacity: 0.75;
+    margin-top: 4rem;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .copyright,
+  .powered-by {
+    white-space: nowrap;
+  }
+
+  .copyright .date {
+    opacity: 1;
+  }
+
+  footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease-out;
+  }
+
+  footer a:hover {
+    color: var(--text-primary);
+  }
+</style>

@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="circle-mask">
+      <circle cx="32" cy="32" r="32" fill="white"/>
+    </mask>
+  </defs>
+
+  <g mask="url(#circle-mask)">
+    <g transform="rotate(30 32 32)">
+      <rect x="-50" y="-50" width="164" height="82" fill="#64748b"/>
+
+      <rect x="-50" y="32" width="164" height="82" fill="#171717"/>
+      
+      <g stroke="#f1f5f9" stroke-width="0.75" stroke-linecap="round">
+        <line x1="29" y1="27" x2="35" y2="27"/> 
+        <line x1="27" y1="22" x2="37" y2="22"/> 
+
+        <line x1="29" y1="37" x2="35" y2="37"/> 
+        <line x1="27" y1="42" x2="37" y2="42"/> 
+      </g>
+    </g>
+
+    <g fill="#f1f5f9">
+       <circle cx="32" cy="32" r="2.5"/>
+       <rect x="18" y="31.25" width="10" height="1.5" rx="0.75"/>
+       <rect x="36" y="31.25" width="10" height="1.5" rx="0.75"/>
+    </g>
+  </g>
+</svg>
