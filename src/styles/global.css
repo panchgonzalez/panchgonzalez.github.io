@@ -210,3 +210,25 @@ main {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Staggered Loading Animation */
+.js .stagger-item {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.js .stagger-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .stagger-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
