@@ -18,14 +18,10 @@ export const { getStaticPaths, GET } = OGImageRoute({
     title: page.title,
     description: themeConfig.site.title,
     logo: {
-      path: 'public/og/og-logo.png',
+      path: 'public/apple-touch-icon.png',
       size: [80, 80]
     },
     bgGradient: [[255, 255, 255]],
-    bgImage: {
-      path: 'public/og/og-bg.png',
-      fit: 'fill'
-    },
     padding: 64,
     font: {
       title: {
