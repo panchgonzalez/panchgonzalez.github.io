@@ -9,7 +9,7 @@ const { posts } = Astro.props as PostListProps
 <ul>
   {
     posts.map((post) => (
-      <li class="stagger-item">
+      <li>
         <a href={`/${post.id}/`}>
           <div class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''}`}>
             {!themeConfig.date.dateOnRight && (

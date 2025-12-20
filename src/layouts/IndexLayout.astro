@@ -41,16 +41,3 @@ const { title, description } = Astro.props
     flex: 1;
   }
 </style>
-
-<script is:inline>
-  document.documentElement.classList.add('js')
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const staggerItems = document.querySelectorAll('.stagger-item')
-    staggerItems.forEach((item, index) => {
-      setTimeout(() => {
-        item.classList.add('is-visible')
-      }, 50 * index)
-    })
-  })
-</script>

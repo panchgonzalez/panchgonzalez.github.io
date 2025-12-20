@@ -103,6 +103,8 @@ html {
   scrollbar-gutter: stable;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -124,7 +126,8 @@ body {
   letter-spacing: var(--spacing-m);
   padding: 6rem 1.5rem 1.5rem 1.5rem;
   overscroll-behavior-y: contain;
-  transition: background-color 0.2s ease-out;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 @media (max-width: 768px) {
@@ -209,26 +212,4 @@ main {
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
   white-space: nowrap;
-}
-
-/* Staggered Loading Animation */
-.js .stagger-item {
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
-}
-
-.js .stagger-item.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .js .stagger-item {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
 }
