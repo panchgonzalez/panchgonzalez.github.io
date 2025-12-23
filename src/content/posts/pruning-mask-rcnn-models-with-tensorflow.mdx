@@ -3,11 +3,15 @@ title: 'Pruning Mask RCNN Models with TensorFlow'
 pubDate: '2020-05-19'
 ---
 
+import GitHubCard from '@/components/ui/GitHubCard.astro'
+
 TL;DR: This is too much work! Use `tf.keras` and `tensorflow_model_optimization` instead.
 
 Here's the [Github repo](https://github.com/panchgonzalez/tf_object_detection_pruning).
 
-#### Magnitude-based weight pruning
+<GitHubCard repo="panchgonzalez/tf_object_detection_pruning"/>
+
+## Magnitude-based weight pruning
 
 Pruning deep learning models has, for a few years now, been an effective way of inducing
 sparsity in the model's various connection matrices. This sparsification of weight
@@ -31,7 +35,7 @@ $$
 s_t = s_f+(s_i-s_f)\Big(1-\frac{t-t_0}{n\Delta t}\Big)^3\quad\text{for}\quad t\in\left\{t_0,t_0+\Delta t,...,t_0+n\Delta t\right \}
 $$
 
-#### Why TensorFlow 1.x?
+## Why TensorFlow 1.x?
 
 While many of TensorFlow's most popular APIs have now moved on to TF 2.0, the
 [TensorFlow Object Detection
@@ -42,7 +46,7 @@ effort](https://github.com/tensorflow/models/issues/6423#issuecomment-600925072)
 migrate the object detection API to TF 2.0 for a few months now, but in the meantime I
 imagine a lot of legacy object detection systems are still using TF 1.x.
 
-#### 0. TensorFlow Model Pruning
+## 0. TensorFlow Model Pruning
 
 **A warning to "modern" TensorFlow users**
 
@@ -131,7 +135,7 @@ with tf.graph.as_default():
     mon_sess.run(mask_update_op)
 ```
 
-#### 1. TF-slim
+## 1. TF-slim
 
 As an example, let's say we want to sparsify an InceptionV2 based model.
 
@@ -262,7 +266,7 @@ the `masked_inception_v2.py` file
 masked_inception_v2_arg_scope = inception_utils.masked_inception_arg_scope
 ```
 
-#### 2. Object Detection API
+## 2. Object Detection API
 
 Let's say we want to train and sparsify an InceptionV2-based Mask R-CNN model. With the
 `tf.slim`-based InceptionV2 backbone done all I need to do is:
@@ -468,7 +472,7 @@ train_spec, eval_specs = model_lib.create_train_and_eval_specs(
     throttle_secs=FLAGS.throttle_secs)
 ```
 
-#### 3. Model Pruning Patch
+## 3. Model Pruning Patch
 
 After training a sparsified object detection model, you'll probably want to export the
 training graph without the pruning nodes. However, the `strip_pruning_vars` utility
@@ -503,7 +507,7 @@ def _get_masked_weights(input_graph_def):
    return masked_weights_dict
 ```
 
-#### 3. Training
+## 3. Training
 
 To train, just add the additional model pruning flags to `model_main.py`
 
@@ -525,7 +529,7 @@ python ${OBJECT_DETECTION_PATH}/object_detection/model_main.py \
     --pruning_end_step=200000
 ```
 
-#### Notes
+## Notes
 
 There are a ton of details that I glossed over, but the main idea is all there. A fully
 working example can be found in the following
@@ -538,7 +542,7 @@ different architecture, say MobileNetV1-based SSD model, just rerun through step
 Or save yourself the trouble and start from a `tf.keras` model and use
 `tensorflow_model_optimization` instead.
 
-#### References
+## References
 
 1. Michael Zhu and Suyog Gupta, “To prune, or not to prune: exploring the efficacy of pruning for model compression”, *2017 NIPS Workshop on Machine Learning of Phones and other Consumer Devices* ([https://arxiv.org/pdf/1710.01878.pdf](https://arxiv.org/pdf/1710.01878.pdf))
 2. [TensorFlow Model Pruning API](https://github.com/tensorflow/tensorflow/tree/r1.15/tensorflow/contrib/model_pruning)
