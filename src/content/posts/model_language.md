@@ -7,7 +7,7 @@ pubDate: 2026-02-08
 
 Recent discussions around *model language* have highlighted the growing gap between the representations used internally by large models and the symbolic forms exposed to users. While much of this discourse remains conceptual, recent work on latent communication in multi-agent systems makes this distinction operational.
 
-The paper [*Latent Communication in Multi-Agent Systems*](https://arxiv.org/abs/2511.20639) (Zou et al., 2025) proposes a multi-agent architecture in which agents exchange information exclusively through latent representations rather than natural language tokens. This design choice is motivated by efficiency and expressivity, and empirical results suggest meaningful gains along those axes.
+The paper [*Latent Collaboration in Multi-Agent Systems*](https://arxiv.org/abs/2511.20639) (Zou et al., 2025) proposes a multi-agent architecture in which agents exchange information exclusively through latent representations rather than natural language tokens. This design choice is motivated by efficiency and expressivity, and empirical results suggest meaningful gains along those axes.
 
 Removing language as the medium of interaction directly affects observability, traceability, and the role of language as an interface for human oversight. These consequences follow from the architecture itself rather than from any particular failure mode.
 
