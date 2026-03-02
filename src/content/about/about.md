@@ -12,5 +12,5 @@ Director of AI/ML @ [OneSix](https://onesixsolutions.com)<br/>
 Focused on Agentic AI, LLMOps, Computer Vision, and ML System Design.<br/>
 Background in Aerospace Engineering and Computational Physics.<br/>
 
-Sometimes I fly airplanes out of [KDPA](https://www.flightaware.com/live/airport/KDPA).
+Sometimes I fly airplanes out of [KDPA](https://beta.flightaware.com/live/airport/KDPA).
 
