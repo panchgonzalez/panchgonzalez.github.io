@@ -54,7 +54,7 @@ From a systems perspective, LatentMAS exchanges representations directly; there 
 
 # Recurrent Depth: Deliberation Without a Transcript
 
-Geiping et al. (2025) describe a language model that applies test-time computation by iterating a recurrent block instead of emitting tokens. The block unrolls to whatever depth the operator selects at inference. The authors train a proof-of-concept model of 3.5 billion parameters on 800 billion tokens, and report that performance on reasoning benchmarks improves as depth increases, in some cases to a level they compare against a computation load equivalent to 50 billion parameters. Their stated motivation includes reasoning that does not reduce cleanly to words. The approach needs no specialized training data and can be used with small context windows.
+Geiping et al. (2025) describe a language model that applies test-time computation by iterating a recurrent block. The operator chooses how many times to unroll it at inference, and nothing produced during those iterations enters the token sequence. The authors train a proof-of-concept model of 3.5 billion parameters on 800 billion tokens, and report that performance on reasoning benchmarks improves as depth increases, in some cases to a level they compare against a computation load equivalent to 50 billion parameters. Their stated motivation includes reasoning that does not reduce cleanly to words. The approach needs no specialized training data and can be used with small context windows.
 
 The property that matters for oversight is what the run record contains. A chain-of-thought system leaves a transcript: tokens that can be read, compared across runs, and checked against the final answer. The recurrent-depth model leaves the prompt and the response. The deliberation occupies activations in a loop whose length is a scalar argument. Two runs that differ in depth can produce different answers while producing identical logs, and there is <mark>no artifact to inspect for which considerations were weighed</mark>.
 
@@ -122,13 +122,13 @@ Chain-of-thought was never a faithful record. Work on rationale faithfulness has
 
 </Thesis>
 
-Latent computation is also not permanently opaque. Geiping et al. released open weights, so the recurrent states can be probed as any other model can. The J-lens is itself a demonstration that internal states are reachable when weights and gradients are available. The exposure is therefore a matter of default rather than of ceiling. Text stops serving as an ambient record, and auditability becomes a capability that has to be built and a permission that has to be granted.
+Latent computation is also not permanently opaque. Geiping et al. released open weights, so the recurrent states can be probed as any other model can. The J-lens is itself a demonstration that internal states are reachable when weights and gradients are available. These results describe what is reachable in principle. What has changed in practice is the default: text stops serving as an ambient record, and auditability becomes a capability that has to be built and a permission that has to be granted.
 
 That last point carries an asymmetry. The Jacobian lens requires weights. The party able to observe is in practice the developer, while the party operating the system under regulation usually is not. Observability confined to the lab does not discharge obligations made at deployment.
 
 <Thesis label="Summary">
 
-The summary is narrower than a claim that these systems cannot be understood. Each result reports either a working instrument or a working design. What has changed is that the presence of text no longer indicates the presence of a record, and that a response no longer implies a readable computation stands behind it.
+The summary is narrower than a claim that these systems cannot be understood. Each result reports either a working instrument or a working design. What has changed is that text may now be present with no record behind it, and a response may arrive with no readable computation to examine.
 
 </Thesis>
 
@@ -153,7 +153,7 @@ Under this framing, interpretability becomes a supervised inference problem over
 
 ## 2. Architectures with Enforced Trace Points
 
-A second direction is architectural. Systems could be designed with periodic projection into interpretable or constrained subspaces instead of fully unconstrained latent exchange.
+A second direction is architectural. Systems could be designed so that latent exchange is projected into interpretable or constrained subspaces at regular intervals.
 
 Examples include:
 
@@ -179,7 +179,7 @@ Interpretability here concerns the dynamics of the interaction; the content of a
 
 ## 4. Instrumented Latent Compute
 
-Recurrent-depth models make the length of deliberation an explicit inference-time parameter, and that parameter and the states it produces are visible to the operator. Recording iteration counts, taking readouts at fixed iteration boundaries, or logging how answers change with depth would yield a coarse record for a system that otherwise leaves none. The same reasoning applies to latent multi-agent exchange: the architecture determines where a checkpoint can be placed, so the decision about traceability can be made before deployment instead of after an incident.
+Recurrent-depth models make the length of deliberation an explicit inference-time parameter, and that parameter and the states it produces are visible to the operator. Recording iteration counts, taking readouts at fixed iteration boundaries, or logging how answers change with depth would yield a coarse record for a system that otherwise leaves none. The same reasoning applies to latent multi-agent exchange: the architecture determines where a checkpoint can be placed, so the decision about traceability can be taken during design, while it is still cheap to change.
 
 ---
 
@@ -189,7 +189,7 @@ Efficiency, bandwidth, and the handling of reasoning that does not reduce cleanl
 
 Latent exchange and recurrent depth are choices a designer makes and can document as such. The finding that most representational content lies outside the verbalizable subframe describes systems already deployed, under a working assumption that their text output constituted a record.
 
-The corresponding research challenge is to develop frameworks for systems whose internal interactions are not human-readable by default, and to treat auditability as a property a system is built with rather than one inferred from the presence of prose. Progress here requires agreed-upon abstractions, evaluation metrics that do not presuppose a readable transcript, and, in some designs, architectural constraints imposed in advance.
+The corresponding research challenge is to develop frameworks for systems whose internal interactions are not human-readable by default, and to make auditability a property a system is designed in from the outset. Progress here requires agreed-upon abstractions, evaluation metrics that do not presuppose a readable transcript, and, in some designs, architectural constraints imposed in advance.
 
 These questions sit at the intersection of representation learning, multi-agent systems, and interpretability, where comparatively little work yet exists.
 
