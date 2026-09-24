@@ -6,7 +6,8 @@ export const themeConfig: ThemeConfig = {
     website: 'https://panch.io/', // Site domain
     title: 'Francisco González', // Site title
     author: 'Francisco González', // Author name
-    description: 'AI Consultant based in Chicago', // Site description
+    description:
+      'Building AI in Chicago. An engineering studio shipping FlightMind and other things worth using.', // Site description
     language: 'en-US' // Default language
   },
 
