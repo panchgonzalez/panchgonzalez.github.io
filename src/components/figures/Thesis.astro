@@ -1,0 +1,56 @@
+---
+interface Props {
+  label?: string
+}
+
+const { label = 'Thesis' } = Astro.props as Props
+---
+
+<aside class="thesis">
+  <span class="thesis-label">{label}</span>
+  <div class="thesis-body"><slot /></div>
+</aside>
+
+<style>
+  .thesis {
+    margin: 2.75em 0;
+    padding: 1.1em 1.35em 1.2em;
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--text-primary);
+    border-radius: 0 10px 10px 0;
+    background: var(--code-bg);
+  }
+
+  .thesis-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: var(--font-size-s);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.6em;
+    line-height: 1.4;
+  }
+
+  .thesis-body {
+    font-size: var(--font-size-l);
+    line-height: 1.65;
+    color: var(--text-primary);
+    letter-spacing: var(--spacing-m);
+  }
+
+  .thesis-body :global(p) {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
+
+  .thesis-body :global(p + p) {
+    margin-top: 0.7em;
+  }
+
+  .thesis-body :global(strong) {
+    font-weight: var(--font-weight-bold);
+  }
+</style>

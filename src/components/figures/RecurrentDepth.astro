@@ -1,0 +1,320 @@
+---
+const record = [
+  { field: 'prompt', state: 'logged' },
+  { field: 'response', state: 'logged' },
+  { field: 'iteration count', state: 'never' },
+  { field: 'intermediate states', state: 'never' }
+]
+---
+
+<div class="rd" data-rd>
+  <div class="rd-head">
+    <span class="rd-fig">Figure 2</span>
+    <span class="rd-title">Depth is an argument, not a record</span>
+  </div>
+
+  <label class="rd-control">
+    <span class="rd-control-label">Unrolled iterations at inference</span>
+    <input data-rd-slider type="range" min="1" max="16" step="1" value="4" />
+    <output class="rd-control-value" data-rd-value>4</output>
+  </label>
+
+  <div class="rd-panels">
+    <div class="rd-panel">
+      <span class="rd-panel-title">Deliberation</span>
+      <div class="rd-loop" data-rd-loop aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="rd-rows">
+        <div class="rd-row">
+          <span>iterations</span>
+          <b data-rd-iter>4</b>
+        </div>
+        <div class="rd-row">
+          <span>intermediate states written</span>
+          <b class="rd-num rd-num-zero" data-rd-written>0</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="rd-panel rd-panel-record">
+      <span class="rd-panel-title">Run record</span>
+      <div class="rd-rows">
+        {
+          record.map((row) => (
+            <div class="rd-row">
+              <span>{row.field}</span>
+              <b class={row.state === 'logged' ? 'rd-yes' : 'rd-no'}>{row.state}</b>
+            </div>
+          ))
+        }
+      </div>
+      <p class="rd-punch" data-rd-punch>About the deliberation: 0 entries.</p>
+    </div>
+  </div>
+
+  <p class="rd-caption">
+    Illustrative. Increasing depth changes how much computation happens between the two logged
+    fields; neither field reports it, and the record is identical in structure at any depth.
+  </p>
+</div>
+
+<script>
+  const roots = document.querySelectorAll('[data-rd]')
+
+  roots.forEach((root) => {
+    const slider = root.querySelector<HTMLInputElement>('[data-rd-slider]')
+    const loop = root.querySelector<HTMLElement>('[data-rd-loop]')
+    const value = root.querySelector<HTMLElement>('[data-rd-value]')
+    const iter = root.querySelector<HTMLElement>('[data-rd-iter]')
+    const written = root.querySelector<HTMLElement>('[data-rd-written]')
+    const punch = root.querySelector<HTMLElement>('[data-rd-punch]')
+    if (!slider || !loop || !value || !iter || !written || !punch) return
+
+    const render = (depth: number) => {
+      loop.innerHTML = Array.from({ length: depth }, () => '<i></i>').join('')
+      value.textContent = String(depth)
+      iter.textContent = String(depth)
+      written.textContent = '0'
+      punch.classList.remove('is-flash')
+      void punch.offsetWidth
+      punch.classList.add('is-flash')
+    }
+
+    render(Number(slider.value))
+    slider.addEventListener('input', () => render(Number(slider.value)))
+  })
+</script>
+
+<style>
+  .rd {
+    margin: 2.75em 0;
+    padding: 1.15em 1.15em 1.1em;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--code-bg);
+  }
+
+  .rd-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75em;
+    margin-bottom: 1em;
+    line-height: 1.4;
+  }
+
+  .rd-fig {
+    font-family: var(--mono);
+    font-size: var(--font-size-s);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  .rd-title {
+    font-size: var(--font-size-s);
+    color: var(--text-secondary);
+  }
+
+  .rd-control {
+    display: flex;
+    align-items: center;
+    gap: 0.85em;
+    margin-bottom: 1.1em;
+    line-height: 1.4;
+  }
+
+  .rd-control-label {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-secondary);
+    flex: 0 0 auto;
+  }
+
+  .rd-control input[type='range'] {
+    flex: 1 1 auto;
+    min-width: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--border);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .rd-control input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+  }
+
+  .rd-control input[type='range']::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+  }
+
+  .rd-control-value {
+    font-family: var(--mono);
+    font-size: var(--font-size-s);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+    min-width: 2ch;
+    text-align: right;
+    flex: 0 0 auto;
+  }
+
+  .rd-panels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 0.75rem;
+  }
+
+  .rd-panel {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 0.85rem 0.9rem;
+  }
+
+  .rd-panel-title {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.7em;
+    line-height: 1.4;
+  }
+
+  .rd-loop {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 2.5rem;
+    align-content: flex-start;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .rd-loop :global(i) {
+    display: block;
+    width: 13px;
+    height: 22px;
+    border-radius: 3px;
+    background: var(--text-primary);
+    opacity: 0.22;
+    animation: rd-step 1.6s ease-in-out infinite;
+  }
+
+  @keyframes rd-step {
+    0%,
+    100% {
+      opacity: 0.16;
+      transform: scaleY(0.72);
+    }
+    45% {
+      opacity: 0.85;
+      transform: scaleY(1);
+    }
+  }
+
+  .rd-loop :global(i:nth-child(2n)) {
+    animation-delay: 0.14s;
+  }
+
+  .rd-loop :global(i:nth-child(3n)) {
+    animation-delay: 0.28s;
+  }
+
+  .rd-loop :global(i:nth-child(4n)) {
+    animation-delay: 0.42s;
+  }
+
+  .rd-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+  }
+
+  .rd-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75em;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .rd-row b {
+    font-weight: var(--font-weight-regular);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .rd-yes {
+    color: var(--text-primary) !important;
+  }
+
+  .rd-no {
+    color: var(--text-tertiary) !important;
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+
+  .rd-num-zero {
+    display: inline-block;
+    min-width: 1ch;
+    border-radius: 4px;
+    padding: 0 0.3em;
+    background: var(--mark);
+    color: var(--text-primary) !important;
+  }
+
+  .rd-punch {
+    margin: 0.9rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border);
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .rd-punch.is-flash {
+    animation: rd-flash 0.5s ease-out;
+  }
+
+  @keyframes rd-flash {
+    0% {
+      background: var(--mark);
+    }
+    100% {
+      background: transparent;
+    }
+  }
+
+  .rd-caption {
+    margin: 1.1em 0 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    font-size: var(--font-size-s);
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+</style>

@@ -1,0 +1,224 @@
+---
+const bars = [
+  {
+    label: 'Activation variance at any layer',
+    pct: 10,
+    value: '≤ 10%',
+    readable: 'the J-space',
+    note: 'Reported as never more than ten percent of activation variance at any layer.'
+  },
+  {
+    label: 'Variance of a single concept vector',
+    pct: 7,
+    value: '6–7%',
+    readable: 'the J-space component',
+    note: 'Reported median share of a concept vector; roughly 93% of the vector lies outside it.'
+  }
+]
+---
+
+<div class="jsf" data-jspace>
+  <div class="jsf-head">
+    <span class="jsf-fig">Figure 3</span>
+    <span class="jsf-title">How much of the computation is verbalizable</span>
+  </div>
+
+  <div class="jsf-bars">
+    {
+      bars.map((bar) => (
+        <div class="jsf-bar">
+          <div class="jsf-bar-head">
+            <span class="jsf-bar-label">{bar.label}</span>
+            <span class="jsf-bar-value">{bar.value}</span>
+          </div>
+          <div class="jsf-track">
+            <div class="jsf-fill" style={`width: ${bar.pct}%`} />
+          </div>
+          <div class="jsf-legend">
+            <span class="jsf-key jsf-key-on">{bar.readable}</span>
+            <span class="jsf-key jsf-key-off">everything else</span>
+          </div>
+          <p class="jsf-note">{bar.note}</p>
+        </div>
+      ))
+    }
+  </div>
+
+  <p class="jsf-caption">
+    Bars drawn to the reported upper bound. Hatching marks content no current readout returns;
+    the same convention is used in Figure 1.
+  </p>
+</div>
+
+<script>
+  const roots = document.querySelectorAll('[data-jspace]')
+
+  roots.forEach((root) => {
+    if (!('IntersectionObserver' in window)) return
+
+    root.classList.add('is-armed')
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          root.classList.add('is-in')
+          observer.unobserve(root)
+        })
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(root)
+  })
+</script>
+
+<style>
+  .jsf {
+    margin: 2.75em 0;
+    padding: 1.15em 1.15em 1.1em;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--code-bg);
+  }
+
+  .jsf-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75em;
+    margin-bottom: 1.1em;
+    line-height: 1.4;
+  }
+
+  .jsf-fig {
+    font-family: var(--mono);
+    font-size: var(--font-size-s);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  .jsf-title {
+    font-size: var(--font-size-s);
+    color: var(--text-secondary);
+  }
+
+  .jsf-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+  }
+
+  .jsf-bar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1em;
+    margin-bottom: 0.5em;
+    line-height: 1.4;
+  }
+
+  .jsf-bar-label {
+    font-size: var(--font-size-m);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .jsf-bar-value {
+    font-family: var(--mono);
+    font-size: var(--font-size-s);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+    background: var(--mark);
+    padding: 0.05em 0.45em;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+
+  .jsf-track {
+    position: relative;
+    height: 1.35rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: var(--bg);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--text-tertiary) 0 1px,
+      transparent 1px 5px
+    );
+    overflow: hidden;
+  }
+
+  .jsf-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--mark);
+    border-right: 1px solid var(--text-tertiary);
+    transform-origin: left center;
+  }
+
+  .jsf-legend {
+    display: flex;
+    gap: 1.1em;
+    margin-top: 0.5em;
+  }
+
+  .jsf-key {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+  }
+
+  .jsf-key::before {
+    content: '';
+    width: 0.85rem;
+    height: 0.55rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  .jsf-key-on::before {
+    background: var(--mark);
+  }
+
+  .jsf-key-off::before {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--text-tertiary) 0 1px,
+      transparent 1px 5px
+    );
+  }
+
+  .jsf-note {
+    margin: 0.5em 0 0;
+    font-size: var(--font-size-s);
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .jsf-caption {
+    margin: 1.25em 0 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    font-size: var(--font-size-s);
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  .jsf.is-armed .jsf-fill {
+    transform: scaleX(0);
+  }
+
+  .jsf.is-in .jsf-fill {
+    transform: scaleX(1);
+    transition: transform 1s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+
+  .jsf.is-in .jsf-bar:nth-child(2) .jsf-fill {
+    transition-delay: 0.18s;
+  }
+</style>

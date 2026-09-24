@@ -1,0 +1,400 @@
+---
+const cards = [
+  {
+    name: 'LatentMAS',
+    ref: 'Zou et al., 2025',
+    span: 'between agents',
+    sub: 'no readable span',
+    mode: 'full',
+    caption:
+      'Agents pass hidden states to one another. Text appears at the input and at the final output, and nowhere in between.'
+  },
+  {
+    name: 'Recurrent depth',
+    ref: 'Geiping et al., 2025',
+    span: 'inside one model',
+    sub: 'no readable span',
+    mode: 'full',
+    caption:
+      'A recurrent block unrolls to a depth selected at inference. The deliberation occupies activations, and no tokens are written while it runs.'
+  },
+  {
+    name: 'The J-space',
+    ref: 'Gurnee et al., 2026',
+    span: 'inside an ordinary model',
+    sub: '≤ 10% readable',
+    mode: 'slit',
+    caption:
+      'A verbalizable subframe does exist in ordinary models. It carries under ten percent of activation variance, and a specialized lens is needed to read it.'
+  }
+]
+---
+
+<div class="wm" data-wm>
+  <div class="wm-head">
+    <span class="wm-fig">Figure 1</span>
+    <span class="wm-title">Three points where the record is withdrawn</span>
+  </div>
+
+  <div class="wm-grid">
+    {
+      cards.map((card, i) => (
+        <button
+          type="button"
+          class="wm-card"
+          data-wm-card
+          data-label={`${card.name} · ${card.ref}`}
+          data-caption={card.caption}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+        >
+          <span class="wm-name">{card.name}</span>
+          <span class="wm-ref">{card.ref}</span>
+
+          <span class="wm-trace" aria-hidden="true">
+            <span class="wm-col">
+              <span class="wm-box wm-readable">
+                <i style="--w: 76%"></i>
+                <i style="--w: 52%"></i>
+                <i style="--w: 66%"></i>
+              </span>
+              <span class="wm-col-label">prompt</span>
+            </span>
+
+            <span class="wm-join" />
+
+            <span class="wm-col wm-col-mid">
+              <span class="wm-box wm-withdrawn">
+                {card.mode === 'slit' && <span class="wm-slit"></span>}
+              </span>
+              <span class="wm-col-label">{card.span}</span>
+              <span class="wm-col-sub">{card.sub}</span>
+            </span>
+
+            <span class="wm-join" />
+
+            <span class="wm-col">
+              <span class="wm-box wm-readable">
+                <i style="--w: 64%"></i>
+                <i style="--w: 42%"></i>
+              </span>
+              <span class="wm-col-label">response</span>
+            </span>
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="wm-legend" aria-hidden="true">
+    <span class="wm-key wm-key-on">readable</span>
+    <span class="wm-key wm-key-off">not readable</span>
+  </div>
+
+  <p class="wm-caption" data-wm-caption aria-live="polite">
+    <strong>{`${cards[0].name} · ${cards[0].ref}. `}</strong>{cards[0].caption}
+  </p>
+</div>
+
+<script>
+  const roots = document.querySelectorAll('[data-wm]')
+
+  roots.forEach((root) => {
+    const cards = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-wm-card]'))
+    const caption = root.querySelector<HTMLElement>('[data-wm-caption]')
+    if (!caption) return
+
+    const select = (card: HTMLButtonElement) => {
+      cards.forEach((c) => c.setAttribute('aria-pressed', String(c === card)))
+      const label = card.dataset.label ?? ''
+      const text = card.dataset.caption ?? ''
+      caption.innerHTML = `<strong>${label}. </strong>${text}`
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => select(card))
+      card.addEventListener('mouseenter', () => select(card))
+    })
+
+    root.classList.add('is-armed')
+
+    if (!('IntersectionObserver' in window)) {
+      root.classList.add('is-in')
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          root.classList.add('is-in')
+          observer.unobserve(root)
+        })
+      },
+      { threshold: 0.25 }
+    )
+    observer.observe(root)
+  })
+</script>
+
+<style>
+  .wm {
+    margin: 2.75em 0;
+    padding: 1.15em 1.15em 1.1em;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--code-bg);
+  }
+
+  .wm-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75em;
+    margin-bottom: 1em;
+    line-height: 1.4;
+  }
+
+  .wm-fig {
+    font-family: var(--mono);
+    font-size: var(--font-size-s);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  .wm-title {
+    font-size: var(--font-size-s);
+    color: var(--text-secondary);
+    letter-spacing: -0.01em;
+  }
+
+  .wm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    gap: 0.75rem;
+  }
+
+  .wm-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-align: left;
+    font: inherit;
+    letter-spacing: inherit;
+    color: var(--text-primary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 0.75rem 0.85rem;
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease-out,
+      transform 0.2s ease-out;
+  }
+
+  .wm-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .wm-card[aria-pressed='true'] {
+    border-color: var(--text-tertiary);
+  }
+
+  .wm-name {
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.4;
+  }
+
+  .wm-ref {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0.6rem;
+  }
+
+  .wm-trace {
+    display: flex;
+    align-items: stretch;
+    gap: 0.3rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .wm-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 0 0 auto;
+    width: 2.6rem;
+  }
+
+  .wm-col-mid {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 3rem;
+  }
+
+  .wm-join {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    margin-top: 1.15rem;
+    height: 1px;
+    width: 0.5rem;
+    background: var(--text-tertiary);
+  }
+
+  .wm-box {
+    position: relative;
+    display: block;
+    height: 2.35rem;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .wm-readable {
+    background: var(--mark);
+    padding: 0.4rem 0.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+    justify-content: center;
+    color: var(--text-primary);
+  }
+
+  .wm-readable i {
+    display: block;
+    height: 2px;
+    width: var(--w);
+    border-radius: 2px;
+    background: currentColor;
+    opacity: 0.42;
+    transform-origin: left center;
+  }
+
+  .wm-withdrawn {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--text-tertiary) 0 1px,
+      transparent 1px 5px
+    );
+    background-color: transparent;
+  }
+
+  .wm-slit {
+    position: absolute;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14%;
+    min-width: 6px;
+    border-radius: 3px;
+    background: var(--mark);
+    box-shadow: 0 0 0 1px var(--border);
+  }
+
+  .wm-col-label {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    line-height: 1.35;
+    color: var(--text-secondary);
+    text-align: center;
+    overflow-wrap: break-word;
+  }
+
+  .wm-col-sub {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    line-height: 1.35;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  .wm-legend {
+    display: flex;
+    gap: 1.1em;
+    margin: 0.15rem 0 0.85rem;
+  }
+
+  .wm-key {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+  }
+
+  .wm-key::before {
+    content: '';
+    width: 0.85rem;
+    height: 0.55rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  .wm-key-on::before {
+    background: var(--mark);
+  }
+
+  .wm-key-off::before {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--text-tertiary) 0 1px,
+      transparent 1px 5px
+    );
+  }
+
+  .wm-caption {
+    margin: 0;
+    font-size: var(--font-size-s);
+    line-height: 1.65;
+    color: var(--text-secondary);
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .wm-caption :global(strong) {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-bold);
+  }
+
+  /* Entrance: armed state hides, .is-in reveals. Without JS neither class is added
+     and everything renders in its final state. */
+  .wm.is-armed .wm-readable i {
+    transform: scaleX(0);
+  }
+
+  .wm.is-armed .wm-withdrawn {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .wm.is-armed .wm-slit {
+    opacity: 0;
+  }
+
+  .wm.is-in .wm-readable i {
+    transform: scaleX(1);
+    transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+  }
+
+  .wm.is-in .wm-readable i:nth-child(2) {
+    transition-delay: 70ms;
+  }
+
+  .wm.is-in .wm-readable i:nth-child(3) {
+    transition-delay: 140ms;
+  }
+
+  .wm.is-in .wm-withdrawn {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) 0.12s;
+  }
+
+  .wm.is-in .wm-slit {
+    opacity: 1;
+    transition: opacity 0.4s ease-out 0.7s;
+  }
+</style>
