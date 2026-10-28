@@ -7,7 +7,7 @@ export const themeConfig: ThemeConfig = {
     title: 'Francisco González', // Site title
     author: 'Francisco González', // Author name
     description:
-      'Building AI in Chicago. An engineering studio shipping FlightMind and other things worth using.', // Site description
+      'AI consultant based in Chicago.', // Site description
     language: 'en-US' // Default language
   },
 
